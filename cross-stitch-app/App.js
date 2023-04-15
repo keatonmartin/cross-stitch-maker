@@ -11,7 +11,7 @@ export default function App() {
   const [image, setImage] = useState(null) // image hook 
   const [blobData, setBlobData] = useState(null)
   const [colors, setColors] = useState(2) 
-  const [size, setSize] = useState(50)
+  const [size, setSize] = useState(1000)
 
   const BackgroundImg = () => {
     const currentImage = require('./assets/Greedent.png')
@@ -33,29 +33,22 @@ export default function App() {
             }}>
             {blobData && 
             <Image source={{uri : blobData}} 
-                  style ={{width: 280,
-                          height: 280
+                  style ={{width: Math.min(280, size),
+                          height: Math.min(280, size)
                   }}/>}
             </ImageBackground>
           
           <Button title="Pick an image from camera roll" onPress={pickImage} />
           <Slider style={{width: 200, height: 40}}
-                  value = {colors}
+                  value={colors}
                   minimumValue={2}
                   maximumValue={15}
                   step={1}
-                  onSlidingComplete={(value) => {              
+                  onSlidingComplete={value => {
                     setColors(value)
-                    
-                    }}
-  
+                    }} 
                   trackClickable={true}/>
           <Text>{colors}</Text>
-          <TextInput
-            onChangeText={field => setSize(parseInt(field))}
-            keyboardType="numeric"
-            value={50}
-          />
         </ImageBackground>
       </View>
     );
@@ -77,11 +70,10 @@ export default function App() {
     if (image) { // if image has been loaded, send payload
       var photo = { 
         uri: image.uri,
-        type: "image/jpeg",
-        name: "photo.jpg",
+        type: "image/png",
+        name: "photo.png",
       }
       var body = new FormData();
-      console.log(colors);
       body.append('colors', colors);
       body.append('image', photo);
       fetch(ENDPOINT + `?colors=${colors}&size=${size}`, {
