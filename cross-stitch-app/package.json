@@ -16,7 +16,9 @@
     "expo-image-picker": "~13.3.1",
     "expo-status-bar": "~1.4.4",
     "react": "18.0.0",
-    "react-native": "0.69.9"
+    "react-native": "0.69.9",
+    "expo-file-system": "~14.1.0",
+    "expo-sharing": "~10.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

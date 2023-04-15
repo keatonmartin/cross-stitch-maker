@@ -3,7 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, Button, Image, ImageBackground , TextInput} from 'react-native';
 import { styles } from './styles/home';
 import Slider from '@react-native-community/slider';
+import * as FileSystem from 'expo-file-system'
 import * as ImagePicker from 'expo-image-picker'
+import * as Sharing from 'expo-sharing';
 
 const ENDPOINT = 'https://us-central1-credible-rider-383823.cloudfunctions.net/ml'
 
@@ -80,17 +82,18 @@ export default function App() {
         method: "POST",
         body
       }).then(res => res.blob())
-      .then((blob) => {
-        const fileReaderInstance = new FileReader();
-        fileReaderInstance.readAsDataURL(blob);
-        fileReaderInstance.onload = () => {
-          console.log(fileReaderInstance.result);
-          setBlobData(fileReaderInstance.result);
+      .then(blob => {
+        const fr = new FileReader();
+        fr.onload = async() => {
+          // console.log(fr.result);
+          const fileUri = `${FileSystem.documentDirectory}/image.png`;
+          await FileSystem.writeAsStringAsync(fileUri, fr.result.split(',')[1], { encoding: FileSystem.EncodingType.Base64 });
+          Sharing.shareAsync(fileUri);
         }
+        fr.readAsDataURL(blob);
       })
     }
   }
-
 
   const pickImage = async() => {
     let result = await ImagePicker.launchImageLibraryAsync({
