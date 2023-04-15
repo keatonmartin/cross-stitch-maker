@@ -33,13 +33,6 @@ export default function App() {
                             justifyContent: 'center',
                             alignItems: 'center',
             }}>
-
-            <ImageBackground source={require('./assets/glider-green.png')} 
-                   style={{width: 125, 
-                           height: 125 ,
-                           alignItems: 'center'
-                           }}/>
-
             {image && 
             <Image source={{uri : image.uri}} 
                   style ={{width: 280,
