@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
 
-    image: {
+    backImage: {
       height: screenHeight,
       width: screenWidth,
       justifyContent: 'center',
