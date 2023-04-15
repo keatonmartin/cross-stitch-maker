@@ -10,7 +10,8 @@ const ENDPOINT = 'https://us-central1-credible-rider-383823.cloudfunctions.net/m
 export default function App() {
   const [image, setImage] = useState(null) // image hook 
   const [blobData, setBlobData] = useState(null)
-  const [colors, setColors] = useState(2) // default colors
+  const [colors, setColors] = useState(2) 
+  const [size, setSize] = useState(50)
 
   const BackgroundImg = () => {
     const currentImage = require('./assets/Greedent.png')
@@ -48,6 +49,11 @@ export default function App() {
                     }} 
                   trackClickable={true}/>
           <Text>{colors}</Text>
+          <TextInput
+            onChangeText={field => setSize(parseInt(field))}
+            keyboardType="numeric"
+            value={50}
+          />
         </ImageBackground>
       </View>
     );
@@ -55,9 +61,9 @@ export default function App() {
   const pickImage = async() => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      // allowsEditing: true,
-      aspect: [4, 3],
-      // quality: 1,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
     });
 
     if (!result.cancelled) {
@@ -76,7 +82,7 @@ export default function App() {
       console.log(colors);
       body.append('colors', colors);
       body.append('image', photo);
-      fetch(ENDPOINT + `?colors=${colors}`, {
+      fetch(ENDPOINT + `?colors=${colors}&size=${size}`, {
         method: "POST",
         body
       }).then(res => res.blob())
