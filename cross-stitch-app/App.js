@@ -14,14 +14,12 @@ export default function App() {
     const currentImage = require('./assets/Greedent.png')
     return (
       <View>
-        {/* displaying background */}
         <ImageBackground
           source={
           require("./assets/back.png")
           }
           resizeMode="stretch"
           style={styles.backImage}>
-            {/* displaying box frame for image */}
             <ImageBackground source={require("./assets/board.png")} 
                     style={{ width: 300, 
                             height: 300,
@@ -30,17 +28,15 @@ export default function App() {
                             justifyContent: 'center',
                             alignItems: 'center',
             }}>
-            {/* displaying image selected or logo */}
-            <Image source={currentImage} 
-                  style ={{width: 100,
-                          height: 100,
-                          margin: 10
-                  }}/>
+            {blobData && 
+            <Image source={{uri : blobData}} 
+                  style ={{width: 280,
+                          height: 280
+                  }}/>}
             </ImageBackground>
             
 
           <Button title="Pick an image from camera roll" onPress={pickImage} />
-          {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
         </ImageBackground>
       </View>
     );
@@ -76,7 +72,8 @@ export default function App() {
         fileReaderInstance.readAsDataURL(blob);
         fileReaderInstance.onload = () => {
           base64data = fileReaderInstance.result;
-          setBlobData(base64data)
+          // console.log(base64data);
+          setBlobData(base64data);
         }
       })
     }
