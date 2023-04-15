@@ -40,13 +40,15 @@ export default function App() {
           
           <Button title="Pick an image from camera roll" onPress={pickImage} />
           <Slider style={{width: 200, height: 40}}
+                  value = {colors}
                   minimumValue={2}
                   maximumValue={15}
                   step={1}
-                  onSlidingComplete={value => {
+                  onSlidingComplete={(value) => {              
                     setColors(value)
-
-                    }} 
+                    
+                    }}
+  
                   trackClickable={true}/>
           <Text>{colors}</Text>
           <TextInput
