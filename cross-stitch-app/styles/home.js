@@ -15,6 +15,26 @@ const styles = StyleSheet.create({
       width: screenWidth,
       justifyContent: 'center',
       alignItems: 'center',
+    },
+
+    input: {
+      height: 40,
+      margin: 12,
+      borderWidth: 1,
+      borderColor: 'blue',
+      padding: 10,
+    },
+
+    printContainer: {
+      flexDirection: 'row',
+      height: 50, 
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+
+    button: {
+      alignItems: 'center',
+      justifyContent: 'center',
     }
 });
 
