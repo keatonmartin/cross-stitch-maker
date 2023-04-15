@@ -38,6 +38,7 @@ export default function App() {
                   }}/>}
             </ImageBackground>
           <Button title="Pick an image from camera roll" onPress={pickImage} />
+          <Text style={styles.sliderText}> Number of Colors</Text>
           <Slider style={{width: 200, height: 40}}
                   value={colors}
                   minimumValue={2}
@@ -47,7 +48,7 @@ export default function App() {
                     setColors(value)
                   }} 
                   trackClickable={true}/>
-          <Text>{colors}</Text>
+          <Text style={styles.sliderNumber}>{colors}</Text>
           {/* setting the size of the image to be printed */}
           <View style={styles.printContainer}>
           <TextInput
@@ -58,7 +59,7 @@ export default function App() {
             keyboardType="numeric"
             />
         {/* Print Button */}
-        <Button style={styles.button} title="Print"  onPress={print} />
+        <Button style={styles.button} title="Download"  onPress={print} />
         </View>
         </ImageBackground>
       </View>
