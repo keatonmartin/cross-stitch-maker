@@ -9,6 +9,7 @@ const ENDPOINT = 'https://us-central1-credible-rider-383823.cloudfunctions.net/m
 export default function App() {
   const [image, setImage] = useState(null) // image hook 
   const [blobData, setBlobData] = useState(null)
+  const [colors, setColors] = useState(2) // default colors
 
   const BackgroundImg = () => {
     const currentImage = require('./assets/Greedent.png')
@@ -62,8 +63,9 @@ export default function App() {
         name: "photo.jpg",
       }
       var body = new FormData();
+      body.append('colors', colors);
       body.append('image', photo);
-      fetch(ENDPOINT, {
+      fetch(ENDPOINT + `?colors=${colors}`, {
         method: "POST",
         body
       }).then(res => res.blob())
