@@ -31,10 +31,10 @@ export default function App() {
                             justifyContent: 'center',
                             alignItems: 'center',
             }}>
-            {blobData && 
-            <Image source={{uri : blobData}} 
-                  style ={{width: Math.min(280, size),
-                          height: Math.min(280, size)
+            {image && 
+            <Image source={{uri : image.uri}} 
+                  style ={{width: 280,
+                          height: 280
                   }}/>}
             </ImageBackground>
           <Button title="Pick an image from camera roll" onPress={pickImage} />
@@ -51,9 +51,8 @@ export default function App() {
           {/* setting the size of the image to be printed */}
           <View style={styles.printContainer}>
           <TextInput
-            style={styles.input}
-            // onChangeText={onChangeSize}
-            onSubmitEditing={onChangeSize}
+            style={styles.input}  
+            onSubmitEditing={setSize}
             value={size}
             placeholder="Enter image size"
             keyboardType="numeric"
@@ -67,25 +66,6 @@ export default function App() {
   };
 
   const print = async() => {
-
-
-  }
-
-
-  const pickImage = async() => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
-
-    if (!result.cancelled) {
-      setImage(result);
-    }
-  }
-
-  useEffect(() => { // payload effect hook
     if (image) { // if image has been loaded, send payload
       var photo = { 
         uri: image.uri,
@@ -103,12 +83,27 @@ export default function App() {
         const fileReaderInstance = new FileReader();
         fileReaderInstance.readAsDataURL(blob);
         fileReaderInstance.onload = () => {
+          console.log(fileReaderInstance.result);
           setBlobData(fileReaderInstance.result);
         }
       })
     }
-  }, [image])
-  
+  }
+
+
+  const pickImage = async() => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setImage(result);
+    }
+  }
+
   return (
     <View style={styles.container}>
       <BackgroundImg/>
