@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { Text, View, Button, Image, ImageBackground } from 'react-native';
 import { styles } from './styles/home';
+import Slider from '@react-native-community/slider';
 import * as ImagePicker from 'expo-image-picker'
 
 const ENDPOINT = 'https://us-central1-credible-rider-383823.cloudfunctions.net/ml'
@@ -35,9 +36,18 @@ export default function App() {
                           height: 280
                   }}/>}
             </ImageBackground>
-            
-
+          
           <Button title="Pick an image from camera roll" onPress={pickImage} />
+          <Slider style={{width: 200, height: 40}}
+                  minimumValue={2}
+                  maximumValue={15}
+                  step={1}
+                  onSlidingComplete={value => {
+                    setColors(value)
+
+                    }} 
+                  trackClickable={true}/>
+          <Text>{colors}</Text>
         </ImageBackground>
       </View>
     );
@@ -63,6 +73,7 @@ export default function App() {
         name: "photo.jpg",
       }
       var body = new FormData();
+      console.log(colors);
       body.append('colors', colors);
       body.append('image', photo);
       fetch(ENDPOINT + `?colors=${colors}`, {
@@ -73,9 +84,7 @@ export default function App() {
         const fileReaderInstance = new FileReader();
         fileReaderInstance.readAsDataURL(blob);
         fileReaderInstance.onload = () => {
-          base64data = fileReaderInstance.result;
-          // console.log(base64data);
-          setBlobData(base64data);
+          setBlobData(fileReaderInstance.result);
         }
       })
     }
