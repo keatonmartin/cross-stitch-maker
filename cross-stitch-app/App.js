@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { Text, View, Button, Image, ImageBackground } from 'react-native';
+import { Text, View, Button, Image, ImageBackground , TextInput} from 'react-native';
 import { styles } from './styles/home';
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from 'expo-image-picker'
@@ -11,7 +11,7 @@ export default function App() {
   const [image, setImage] = useState(null) // image hook 
   const [blobData, setBlobData] = useState(null)
   const [colors, setColors] = useState(2) 
-  const [size, setSize] = useState(1000)
+  const [size, setSize] = useState(40)
 
   const BackgroundImg = () => {
     const currentImage = require('./assets/Greedent.png')
@@ -37,7 +37,6 @@ export default function App() {
                           height: Math.min(280, size)
                   }}/>}
             </ImageBackground>
-          
           <Button title="Pick an image from camera roll" onPress={pickImage} />
           <Slider style={{width: 200, height: 40}}
                   value={colors}
@@ -46,13 +45,33 @@ export default function App() {
                   step={1}
                   onSlidingComplete={value => {
                     setColors(value)
-                    }} 
+                  }} 
                   trackClickable={true}/>
           <Text>{colors}</Text>
+          {/* setting the size of the image to be printed */}
+          <View style={styles.printContainer}>
+          <TextInput
+            style={styles.input}
+            // onChangeText={onChangeSize}
+            onSubmitEditing={onChangeSize}
+            value={size}
+            placeholder="Enter image size"
+            keyboardType="numeric"
+            />
+        {/* Print Button */}
+        <Button style={styles.button} title="Print"  onPress={print} />
+        </View>
         </ImageBackground>
       </View>
     );
   };
+
+  const print = async() => {
+
+
+  }
+
+
   const pickImage = async() => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -89,7 +108,7 @@ export default function App() {
       })
     }
   }, [image])
-
+  
   return (
     <View style={styles.container}>
       <BackgroundImg/>
