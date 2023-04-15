@@ -19,9 +19,10 @@ const styles = StyleSheet.create({
 
     input: {
       height: 40,
+      width: 160,
       margin: 12,
-      borderWidth: 1,
-      borderColor: 'blue',
+      borderWidth: 2,
+      borderColor: 'cornflowerblue',
       padding: 10,
     },
 
