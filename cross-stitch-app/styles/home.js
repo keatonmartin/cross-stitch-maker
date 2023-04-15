@@ -35,6 +35,24 @@ const styles = StyleSheet.create({
     button: {
       alignItems: 'center',
       justifyContent: 'center',
+    },
+
+    sliderText:
+    {
+      textsize: 14,
+      textAlign: 'center',
+      marginTop: 10,
+      marginBottom: -5
+    },
+
+    sliderNumber: 
+    {
+      textsize: 20,
+      textAlign: 'center',
+      marginTop: -10,
+      marginBottom:10
+      
+
     }
 });
 
