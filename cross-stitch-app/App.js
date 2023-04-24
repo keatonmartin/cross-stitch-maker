@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { Text, View, Button, Image, ImageBackground , TextInput} from 'react-native';
+import { Text, View, Button, Image, ImageBackground , TextInput, ActivityIndicator} from 'react-native';
 import { styles } from './styles/home';
 import Slider from '@react-native-community/slider';
 import * as FileSystem from 'expo-file-system'
@@ -14,6 +14,7 @@ export default function App() {
   const [blobData, setBlobData] = useState(null)
   const [colors, setColors] = useState(2) 
   const [size, setSize] = useState(40)
+  const [loading, setLoading] = useState(false);
 
   const BackgroundImg = () => {
     const currentImage = require('./assets/Greedent.png')
@@ -25,7 +26,7 @@ export default function App() {
           }
           resizeMode="stretch"
           style={styles.backImage}>
-            <ImageBackground source={require("./assets/board.png")} 
+            <ImageBackground source={require("./assets/BoardwScrews.png")} 
                     style={{ width: 300, 
                             height: 300,
                             marginBottom: 20,
@@ -39,6 +40,12 @@ export default function App() {
                           height: 280
                   }}/>}
             </ImageBackground>
+          {/* Simple Loading Circle */}
+          {loading && (
+            <View style={styles.loadingContainer}>
+              <ActivityIndicator size="large" color="#4902FC"/>
+            </View>
+          )}
           <Button title="Pick an image from camera roll" onPress={pickImage} />
           <Text style={styles.sliderText}> Number of Colors</Text>
           <Slider style={{width: 200, height: 40}}
@@ -69,6 +76,8 @@ export default function App() {
   };
 
   const print = async() => {
+    setLoading(true);
+    // try {
     if (image) { // if image has been loaded, send payload
       var photo = { 
         uri: image.uri,
@@ -83,15 +92,16 @@ export default function App() {
         body
       }).then(res => res.blob())
       .then(blob => {
+        setLoading(false);
         const fr = new FileReader();
         fr.onload = async() => {
-          // console.log(fr.result);
+          // console.log(fr.result
           const fileUri = `${FileSystem.documentDirectory}/image.png`;
           await FileSystem.writeAsStringAsync(fileUri, fr.result.split(',')[1], { encoding: FileSystem.EncodingType.Base64 });
           Sharing.shareAsync(fileUri);
         }
         fr.readAsDataURL(blob);
-      })
+      }) 
     }
   }
 
@@ -102,16 +112,14 @@ export default function App() {
       aspect: [1, 1],
       quality: 1,
     });
-
     if (!result.cancelled) {
       setImage(result);
     }
   }
-
   return (
     <View style={styles.container}>
       <BackgroundImg/>
     </View>
   );
-}
+  }
 
